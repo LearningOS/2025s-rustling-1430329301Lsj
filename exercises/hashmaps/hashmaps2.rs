@@ -14,7 +14,12 @@
 // Execute `rustlings hint hashmaps2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// 向已有的水果篮中添加新的水果种类，但不能修改已有的三种水果（苹果4、芒果2、荔枝5）的数量，同时要满足：
+// 至少有5种水果
+// 水果总数超过11个
+// 每种水果至少有一个
+
+
 
 use std::collections::HashMap;
 
@@ -40,6 +45,21 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         // TODO: Insert new fruits if they are not already present in the
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
+        // 定义需要添加的水果及其初始数量
+        let fruits_to_add = [
+            (Fruit::Banana, 3),
+            (Fruit::Pineapple, 3),
+
+        ];
+        // 使用 entry添加缺失的水果
+        for (fruit, count) in fruits_to_add {
+            basket.entry(fruit).or_insert(count);
+
+        //Note:
+        //    entry(key)：
+        // 检查 key 是否存在于 HashMap 中
+        // 返回一个 Entry 枚举，可能是 Occupied（已存在）或 Vacant（不存在）
+        }
     }
 }
 

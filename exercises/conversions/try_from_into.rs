@@ -27,7 +27,6 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
 
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
@@ -41,13 +40,62 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        /*
+        方法一：
+        if let Err(e) = check_range(tuple.0) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(tuple.1) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(tuple.2) {
+            return Err(e);
+        }
+        let (red, green, blue) = (tuple.0 as u8, tuple.1 as u8, tuple.2 as u8);
+        Ok(Color{red, green, blue})*/
+        // 方法二：
+        // match tuple{
+        //     (0..=255, 0..=255,0..=255) => Ok(Color{red:tuple.0 as u8, green:tuple.1 as u8, blue:tuple.2 as u8}),
+        //     _ => Err(IntoColorError::IntConversion),
+        // }
+        // 方法2.2
+        // match tuple{
+        //     (red@0..=255, green@0..=255,blue@0..=255) => Ok(Color{red:red as u8, green:green as u8, blue:blue as u8}),
+        //     _ => Err(IntoColorError::IntConversion),
+        // }
+        // 方法2.3
+        match tuple{
+            (r, g,b)
+                if (0..=255).contains(&r) && (0..=255).contains(&g) && b>=0&& b<=255
+
+            => Ok(Color{red:r as u8, green:g as u8, blue:b as u8}),
+            _ => Err(IntoColorError::IntConversion),
+        }
     }
 }
 
+fn check_range(value: i16) -> Result<(), IntoColorError> {
+    if value < 0 || value > 255 {
+        return Err(IntoColorError::IntConversion);
+    } else {
+        return Ok(());
+    }
+}
 // Array implementation
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        if let Err(e) = check_range(arr[0]) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(arr[1]) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(arr[2]) {
+            return Err(e);
+        }
+        let (red, green, blue) = (arr[0] as u8, arr[1] as u8, arr[2] as u8);
+        Ok(Color{red, green, blue})
     }
 }
 
@@ -55,8 +103,23 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        if slice.len() != 3 {
+            return Err(IntoColorError::BadLen);
+        }
+        if let Err(e) = check_range(slice[0]) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(slice[1]) {
+            return Err(e);
+        }
+        if let Err(e) = check_range(slice[2]) {
+            return Err(e);
+        }
+        let (red, green, blue) = (slice[0] as u8, slice[1] as u8, slice[2] as u8);
+        Ok(Color{red, green, blue})
     }
 }
+
 
 fn main() {
     // Use the `try_from` function

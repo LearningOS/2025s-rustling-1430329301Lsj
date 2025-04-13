@@ -1,8 +1,8 @@
 // errors5.rs
 //
-// This program uses an altered version of the code from errors4.
+// This program uses an altered version 修改版 of the code from errors4.
 //
-// This exercise uses some concepts that we won't get to until later in the
+// This exercise uses some concepts观念 that we won't get to until later in the
 // course, like `Box` and the `From` trait. It's not important to understand
 // them in detail right now, but you can read ahead if you like. For now, think
 // of the `Box<dyn ???>` type as an "I want anything that does ???" type, which,
@@ -22,14 +22,18 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+//这个练习要求更新 main() 函数的返回类型，使其能够处理两种可能的错误：
+
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+fn main() -> Result<(), Box<dyn error::Error>> {
+    // Box<dyn error::Error> 是 Rust 中处理多种错误的惯用方式
+    // ParseIntError（来自字符串解析）和 CreationError。需要找到一个能同时描述这两种错误的 trait。
+    // Box<dyn error::Error> 是一个 trait 对象，可以包含任何实现了 Error trait 的类型
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);

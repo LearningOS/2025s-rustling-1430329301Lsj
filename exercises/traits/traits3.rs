@@ -8,10 +8,17 @@
 // Execute `rustlings hint traits3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 pub trait Licensed {
-    fn licensing_info(&self) -> String;
+    fn licensing_info(&self) -> String{
+        // 方法一
+        // return "Some information".into();
+        // 方法二
+        // 多实现情况下，结构体名(自身的特质名）/特质名[::<泛型>]::方法（参数）
+        Into::<String>::into("Some information")
+
+
+    }
 }
 
 struct SomeSoftware {
@@ -36,6 +43,7 @@ mod tests {
         let other_software = OtherSoftware {
             version_number: "v2.0.0".to_string(),
         };
+
         assert_eq!(some_software.licensing_info(), licensing_info);
         assert_eq!(other_software.licensing_info(), licensing_info);
     }
